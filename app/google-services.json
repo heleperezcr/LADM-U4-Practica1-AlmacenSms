@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "173355207576",
+    "project_id": "ladm-u4-practica1-almacensms",
+    "storage_bucket": "ladm-u4-practica1-almacensms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173355207576:android:fdf1aa2df0caef72c439ed",
+        "android_client_info": {
+          "package_name": "com.example.ladm_u4_practica1_almacensms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "173355207576-abj1bh0dc63ddcbtu2krt3glqvq5n7p4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCrJR_othQYaNYEfF7MICCFny7_bqPMpg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "173355207576-abj1bh0dc63ddcbtu2krt3glqvq5n7p4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
