@@ -1,13 +1,17 @@
 package com.example.ladm_u4_practica1_almacensms
 
+import android.Manifest
 import android.R
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.telephony.SmsManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import com.example.ladm_u4_practica1_almacensms.databinding.ActivityMainBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDateTime
@@ -27,18 +31,28 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         mostrar()
 
+        //Para que pida los permisos
+        val siLecturaSMS = 15
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.SEND_SMS), siLecturaSMS)
+        }
 
         //Enviar mensaje
         binding.enviar.setOnClickListener {
             val dateTime = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm:ss a"))
 
+            var telefono = binding.telefono.text.toString()
+            var mensaje = binding.mensaje.text.toString()
+
             var datos = hashMapOf(
                 "fecha" to dateTime.toString(),
-                "mensaje" to binding.mensaje.text.toString(),
-                "telefono" to binding.telefono.text.toString(),
+                "mensaje" to mensaje,
+                "telefono" to telefono,
                 "registrado" to Date()
             )
+
+           enviarMensaje(telefono, mensaje)
 
             //Crear la tabla personas                                         //agregar
             FirebaseFirestore.getInstance().collection("smsenviados").add(datos)
@@ -56,6 +70,34 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun enviarMensaje(telefono: String, mensaje: String) {
+        val phoneNumber = telefono
+        val message = mensaje
+
+        try {
+            val smsManager:SmsManager
+            if (Build.VERSION.SDK_INT>=23) {
+                //if SDK is greater that or equal to 23 then
+                //this is how we will initialize the SmsManager
+                smsManager = this.getSystemService(SmsManager::class.java)
+            }
+            else{
+                //if user's SDK is less than 23 then
+                //SmsManager will be initialized like this
+                smsManager = SmsManager.getDefault()
+            }
+
+            smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+
+            Toast.makeText(applicationContext, "Message Sent", Toast.LENGTH_LONG).show()
+
+        } catch (e: Exception) {
+            Toast.makeText(applicationContext, "Please enter all the data.."+e.message.toString(), Toast.LENGTH_LONG)
+                .show()
+            println("Please enter all the data.."+e.message.toString())
+        }
     }
 
 
