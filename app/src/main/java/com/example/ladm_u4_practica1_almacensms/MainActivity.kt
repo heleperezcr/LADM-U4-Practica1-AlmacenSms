@@ -66,10 +66,7 @@ class MainActivity : AppCompatActivity() {
                     //Si y solo si NO se pudo realizar la transaccion en la nube
                     aler(it.message!!)
                 }
-
         }
-
-
     }
 
     private fun enviarMensaje(telefono: String, mensaje: String) {
@@ -79,22 +76,18 @@ class MainActivity : AppCompatActivity() {
         try {
             val smsManager:SmsManager
             if (Build.VERSION.SDK_INT>=23) {
-                //if SDK is greater that or equal to 23 then
-                //this is how we will initialize the SmsManager
                 smsManager = this.getSystemService(SmsManager::class.java)
             }
             else{
-                //if user's SDK is less than 23 then
-                //SmsManager will be initialized like this
                 smsManager = SmsManager.getDefault()
             }
 
             smsManager.sendTextMessage(phoneNumber, null, message, null, null)
 
-            Toast.makeText(applicationContext, "Message Sent", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "Mensaje enviado", Toast.LENGTH_LONG).show()
 
         } catch (e: Exception) {
-            Toast.makeText(applicationContext, "Please enter all the data.."+e.message.toString(), Toast.LENGTH_LONG)
+            Toast.makeText(applicationContext, "Por favor, ingresa todos lo que se te solicita.."+e.message.toString(), Toast.LENGTH_LONG)
                 .show()
             println("Please enter all the data.."+e.message.toString())
         }
